@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+      <style>
+        body {
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+/* 🎀 Boîte principale */
+.main {
+  width: 350px;
+  height: 500px;
+  background: linear-gradient(145deg, #ffc3e1 0%, #ffb3d9 100%);
+  border-radius: 25px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+  padding: 20px;
+  border: 4px solid #fff;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+p{  color: #764ba2;
+  font-size: 20px;
+  font-weight: bold;}
+
+  p::after {
+  content: '💖';
+  position: absolute;
+  top: -15px;
+  left: 30px;
+  font-size: 30px;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+/* 🌸 Bloc info */
+#info {
+  width: 350px;
+  height: 120px;
+  background: linear-gradient(145deg, #ffc3e1 0%, #ffb3d9 100%);
+  border-radius: 25px;
+  position: relative;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+  padding: 20px;
+  border: 4px solid #fff;
+  box-sizing: border-box;
+  left: 0;
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+#info.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ✨ Animations */
+.main:hover {
+  box-shadow: 0 15px 40px rgba(255, 105, 180, 0.5);
+  transform: translateY(-5px);
+}
+
+.main::before {
+  content: '✨';
+  position: absolute;
+  top: -15px;
+  right: 30px;
+  font-size: 30px;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.main::after {
+  content: '💖';
+  position: absolute;
+  top: -15px;
+  left: 30px;
+  font-size: 30px;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+#info::before {
+  content: '✨';
+  position: absolute;
+  top: -15px;
+  right: 30px;
+  font-size: 30px;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+#info::after {
+  content: '💖';
+  position: absolute;
+  top: -15px;
+  left: 30px;
+  font-size: 30px;
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(10deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* 🖥️ Écran */
+.ecran {
+  background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+  width: 100%;
+  height: 70px;
+  border-radius: 20px;
+  color: #764ba2;
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+  box-sizing: border-box;
+  box-shadow: inset 0 3px 10px rgba(118, 75, 162, 0.1);
+  border: 3px solid #ffd6ec;
+  margin-bottom: 15px;
+}
+
+/* 🔢 Grille des boutons */
+.calco {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* 🌺 Boutons */
+button {
+  height: 55px;
+  border-radius: 15px;
+  border: none;
+  background: linear-gradient(145deg, #ffffff, #f0e6ff);
+  color: #764ba2;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(118, 75, 162, 0.2);
+  border: 2px solid #fff;
+}
+
+button:hover {
+  background: linear-gradient(145deg, #ffe6f7, #ffd6ec);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(255, 105, 180, 0.3);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(118, 75, 162, 0.3);
+  background: linear-gradient(145deg, #ffcce6, #ffc3e1);
+}
+
+#add, #min, #fx {
+  background: linear-gradient(145deg, #ff9ed8, #ff8acc);
+  color: white;
+}
+
+#add:hover, #min:hover, #fx:hover {
+  background: linear-gradient(145deg, #ffb3e0, #ffa3d6);
+}
+
+#eq {
+  background: linear-gradient(145deg, #a78bfa, #8b5cf6);
+  color: white;
+}
+
+#eq:hover {
+  background: linear-gradient(145deg, #c4b5fd, #a78bfa);
+}
+
+#supp {
+  background: linear-gradient(145deg, #fbbf24, #f59e0b);
+  color: white;
+}
+
+#supp:hover {
+  background: linear-gradient(145deg, #fcd34d, #fbbf24);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .main {
+    width: 90%;
+    height: auto;
+    padding: 15px;
+  }
+
+  #info {
+    width: 90%;
+    left: 0;
+    padding: 15px;
+  }
+
+  .ecran {
+    font-size: 22px;
+    height: 60px;
+  }
+
+  button {
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    width: 90%;
+    border-radius: 15px;
+  }
+
+  #info {
+    width: 90%;
+  }
+
+  .ecran {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+
+  button {
+    height: 45px;
+    font-size: 16px;
+  }
+}
+
+    </style>
+    
+</head>
+<body>
+    <div id="info"><div id="aff"><div class="ecran" id="cran">jj+MM+YY=</div></div></div>
+    <div class="main">
+        <div id="aff"><div class="ecran" id="ecran"></div></div>
+        <div class="calco">
+        <button id="1">1</button>
+        <button id="2">2</button>
+        <button id="3">3</button>
+        <button id="add">+</button>
+        <button id="4">4</button>
+        <button id="5">5</button>
+        <button id="6">6</button>
+        <button id="min">-</button>
+        <button id="7">7</button>
+        <button id="8">8</button>
+        <button id="9">9</button>
+        <button id="fx">x</button>
+        <button id="eq">=</button>
+        <button id="0">0</button>
+        <button id="supp">supp</button>
+        <button id="plus">info</button>
+        </div>
+        <p>when were u born my baby💖?</p>
+    </div>
+    <script>
+        let operation;
+        let result;
+const a = document.getElementById("1");
+const b = document.getElementById("2");
+const c = document.getElementById("3");
+const d = document.getElementById("4");
+const e = document.getElementById("5");
+const f = document.getElementById("6");
+const g = document.getElementById("7");
+const h = document.getElementById("8");
+const i = document.getElementById("9");
+const o = document.getElementById("0");
+const j = document.getElementById("add");
+const k = document.getElementById("fx");
+const l = document.getElementById("eq");
+const m = document.getElementById("min");
+const supp= document.getElementById("supp");
+const nul= document.getElementById("info");
+const plus= document.getElementById("plus");
+
+
+a.addEventListener("click", ()=> {
+a.innerText="1";
+ecran.innerText+="1";
+});
+b.addEventListener("click", ()=> {
+b.innerText="2";
+ecran.innerText+="2";
+});
+c.addEventListener("click", ()=> {
+c.innerText="3";
+ecran.innerText+="3";
+});
+d.addEventListener("click", ()=> {
+d.innerText="4";
+ecran.innerText+="4";
+});
+e.addEventListener("click", ()=> {
+e.innerText="5";
+ecran.innerText+="5";
+});
+f.addEventListener("click", ()=> {
+f.innerText="6";
+ecran.innerText+="6";
+})
+g.addEventListener("click", ()=> {
+g.innerText+="7";
+ecran.innerText+="7";
+})
+h.addEventListener("click", ()=> {
+h.innerText="8";
+ecran.innerText+="8";
+})
+i.addEventListener("click", ()=> {
+i.innerText="9";
+ecran.innerText+="9";
+})
+o.addEventListener("click", ()=> {
+o.innerText="0";
+ecran.innerText+="0";
+})
+j.addEventListener("click", ()=> {
+j.innerText="+";
+ecran.innerText+="+";
+});
+m.addEventListener("click", ()=> {
+m.innerText="-";
+ecran.innerText+="-";
+});
+l.addEventListener("click", ()=> {
+operation= ecran.innerText;
+result=eval(operation);
+ecran.innerText=result;
+
+mdp=2041;
+if(result===mdp){
+window.location.href = "karelle.html";
+}
+});
+k.addEventListener("click", ()=> {
+k.innerText="x";
+ecran.innerText+="x";
+});
+supp.addEventListener("click",()=>{
+    ecran.innerText = ecran.innerText.slice(0, -1);
+})
+plus.addEventListener("click",()=>{
+    nul.classList.toggle("active");
+})
+
+    </script>
+</body>
+</html>

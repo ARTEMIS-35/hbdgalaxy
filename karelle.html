@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Univers d'Amour pour Karelle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            cursor: grab;
+        }
+        
+        #canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 14px;
+            background: rgba(255, 105, 180, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 20, 147, 0.5);
+            z-index: 10;
+        }
+        
+        #info h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px #ff69b4); }
+            50% { filter: drop-shadow(0 0 20px #ff1493); }
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 105, 180, 0.3);
+            padding: 15px 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 20, 147, 0.5);
+            color: white;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .word-hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="info">
+        <h1>✨ KARELLE ✨</h1>
+        <p>🖱️ Cliquez sur un mot d'amour pour zoomer</p>
+        <p>💖 Les cœurs tournent autour de toi</p>
+        <p>🌟 Molette : Zoom | Glisser : Explorer</p>
+    </div>
+    
+    <div id="controls">
+        <p id="message">🌹 Tu es mon univers 🌹</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        // Position initiale de la caméra
+        const initialCameraPos = new THREE.Vector3(0, 80, 180);
+        camera.position.copy(initialCameraPos);
+        camera.lookAt(0, 0, 0);
+
+        // État du zoom
+        let isZooming = false;
+        let zoomTarget = null;
+        let targetCameraPos = new THREE.Vector3();
+        let targetLookAt = new THREE.Vector3();
+        let currentLookAt = new THREE.Vector3(0, 0, 0);
+
+        // Mots d'amour pour les étoiles
+        const motsAmour = [
+            'Je t\'aime Karelle', 'Mon Amour', 'Ma Chérie', 'Mon Cœur', 'Ma Belle', 'Mon Ange',
+            'Pour Toujours', 'Tendresse', 'Passion', 'Éternité', 'Bonheur', 'Joie', 'Rêve',
+            'Toi & Moi', 'Forever', 'Always', 'Together', 'Âme Sœur', 'Mon Trésor', 'Ma Vie',
+            'Tu es unique', 'Magnifique', 'Précieuse', 'Spéciale', 'Merveilleuse', 'Adorable',
+            'Enchantement', 'Magie', 'Ton Sourire', 'Ton Regard', 'Câlin', 'Bisou', 'Douceur',
+            'Complicité', 'Je pense à toi', 'Fidélité', 'Promesse', 'Infini', 'Mon Étoile',
+            'Ma Lune', 'Mon Soleil', 'Ma Galaxie', 'Mon Univers', 'Rire', 'Charme', 'Grâce'
+        ];
+
+        // Groupe d'étoiles
+        const starsGroup = new THREE.Group();
+        const canvas2d = document.createElement('canvas');
+        const ctx = canvas2d.getContext('2d');
+        canvas2d.width = 512;
+        canvas2d.height = 256;
+        const wordSprites = [];
+
+        function createTextTexture(text) {
+            ctx.clearRect(0, 0, canvas2d.width, canvas2d.height);
+            
+            const gradient = ctx.createLinearGradient(0, 0, canvas2d.width, canvas2d.height);
+            gradient.addColorStop(0, '#ff69b4');
+            gradient.addColorStop(0.5, '#ff1493');
+            gradient.addColorStop(1, '#ffb6c1');
+            
+            ctx.fillStyle = gradient;
+            ctx.font = 'bold 50px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = '#ff1493';
+            ctx.shadowBlur = 25;
+            ctx.fillText(text, canvas2d.width / 2, canvas2d.height / 2);
+            
+            const texture = new THREE.Texture(canvas2d);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        // Créer les étoiles de mots
+        for (let i = 0; i < 100; i++) {
+            const mot = motsAmour[Math.floor(Math.random() * motsAmour.length)];
+            const texture = createTextTexture(mot);
+            
+            const material = new THREE.SpriteMaterial({ 
+                map: texture,
+                transparent: true,
+                opacity: 0.8
+            });
+            
+            const sprite = new THREE.Sprite(material);
+            const distance = 200 + Math.random() * 600;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.random() * Math.PI;
+            
+            sprite.position.set(
+                distance * Math.sin(phi) * Math.cos(theta),
+                distance * Math.sin(phi) * Math.sin(theta),
+                distance * Math.cos(phi)
+            );
+            sprite.scale.set(25, 12.5, 1);
+            sprite.userData = { 
+                text: mot,
+                originalScale: new THREE.Vector3(25, 12.5, 1),
+                isHovered: false
+            };
+            
+            starsGroup.add(sprite);
+            wordSprites.push(sprite);
+        }
+        scene.add(starsGroup);
+
+        // Créer le Soleil avec "KARELLE"
+        const sunGroup = new THREE.Group();
+        
+        const sunGeometry = new THREE.SphereGeometry(15, 64, 64);
+        const sunMaterial = new THREE.MeshBasicMaterial({ 
+            color: 0xffdd44,
+            emissive: 0xffaa00
+        });
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        sunGroup.add(sun);
+
+        // Ajouter le nom "KARELLE" sur le Soleil
+        const karelleTexture = createKarelleTexture();
+        const karelleMaterial = new THREE.SpriteMaterial({ 
+            map: karelleTexture,
+            transparent: true
+        });
+        const karelleSprite = new THREE.Sprite(karelleMaterial);
+        karelleSprite.scale.set(35, 17.5, 1);
+        karelleSprite.position.set(0, 0, 16);
+        sunGroup.add(karelleSprite);
+
+        scene.add(sunGroup);
+
+        function createKarelleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 256;
+            const context = canvas.getContext('2d');
+            
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const gradient = context.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, '#ffffff');
+            gradient.addColorStop(0.5, '#ffff00');
+            gradient.addColorStop(1, '#ffffff');
+            
+            context.fillStyle = gradient;
+            context.font = 'bold 100px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.shadowColor = '#ff6600';
+            context.shadowBlur = 30;
+            context.fillText('KARELLE', canvas.width / 2, canvas.height / 2);
+            
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        // Lumière du soleil
+        const sunLight = new THREE.PointLight(0xffffff, 2.5, 600);
+        sunGroup.add(sunLight);
+
+        // Créer une forme de cœur
+        function createHeartShape() {
+            const shape = new THREE.Shape();
+            shape.moveTo(0, 0);
+            shape.bezierCurveTo(0, -0.3, -0.6, -0.3, -0.6, 0);
+            shape.bezierCurveTo(-0.6, 0.3, -0.3, 0.6, 0, 1);
+            shape.bezierCurveTo(0.3, 0.6, 0.6, 0.3, 0.6, 0);
+            shape.bezierCurveTo(0.6, -0.3, 0, -0.3, 0, 0);
+
+            const extrudeSettings = {
+                depth: 0.3,
+                bevelEnabled: true,
+                bevelSegments: 10,
+                steps: 2,
+                bevelSize: 0.1,
+                bevelThickness: 0.1
+            };
+
+            return new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        }
+
+        // Planètes-cœurs
+        const planetsData = [
+            { name: 'Mercure', size: 2.5, color: 0xff69b4, distance: 35, speed: 0.04 },
+            { name: 'Vénus', size: 3.5, color: 0xff1493, distance: 50, speed: 0.03 },
+            { name: 'Terre', size: 4, color: 0xffb6c1, distance: 70, speed: 0.02 },
+            { name: 'Mars', size: 3, color: 0xff1493, distance: 90, speed: 0.018 },
+            { name: 'Jupiter', size: 6, color: 0xff69b4, distance: 115, speed: 0.013 },
+            { name: 'Saturne', size: 5.5, color: 0xff1493, distance: 140, speed: 0.01 },
+            { name: 'Uranus', size: 4.5, color: 0xffb6c1, distance: 165, speed: 0.008 },
+            { name: 'Neptune', size: 4.5, color: 0xff1493, distance: 190, speed: 0.006 }
+        ];
+
+        const planets = [];
+        const heartGeometry = createHeartShape();
+
+        planetsData.forEach(data => {
+            const material = new THREE.MeshStandardMaterial({ 
+                color: data.color,
+                roughness: 0.3,
+                metalness: 0.7,
+                emissive: data.color,
+                emissiveIntensity: 0.4
+            });
+            const heart = new THREE.Mesh(heartGeometry, material);
+            heart.scale.set(data.size, data.size, data.size);
+            
+            const orbitGeometry = new THREE.RingGeometry(data.distance - 0.3, data.distance + 0.3, 128);
+            const orbitMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xff69b4,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.15
+            });
+            const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+            
+            planets.push({
+                mesh: heart,
+                distance: data.distance,
+                speed: data.speed,
+                angle: Math.random() * Math.PI * 2,
+                baseSize: data.size
+            });
+            
+            scene.add(heart);
+        });
+
+        const ambientLight = new THREE.AmbientLight(0x888888);
+        scene.add(ambientLight);
+
+        // Raycaster pour clic
+        const raycaster = new THREE.Raycaster();
+        raycaster.params.Sprite = { threshold: 10 };
+        const mouse = new THREE.Vector2();
+
+        // Navigation souris
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let hasDragged = false;
+        let previousMouseX = 0;
+        let previousMouseY = 0;
+        let rotationY = 0;
+        let rotationX = 0;
+        let zoomLevel = 180;
+
+        document.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            hasDragged = false;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            previousMouseX = e.clientX;
+            previousMouseY = e.clientY;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            if (isDragging) {
+                const dragDistance = Math.sqrt(
+                    Math.pow(e.clientX - dragStartX, 2) + 
+                    Math.pow(e.clientY - dragStartY, 2)
+                );
+                if (dragDistance > 5) {
+                    hasDragged = true;
+                }
+
+                if (!isZooming) {
+                    const deltaX = e.clientX - previousMouseX;
+                    const deltaY = e.clientY - previousMouseY;
+                    
+                    rotationY += deltaX * 0.005;
+                    rotationX += deltaY * 0.005;
+                    rotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, rotationX));
+                    
+                    previousMouseX = e.clientX;
+                    previousMouseY = e.clientY;
+                }
+            }
+
+            // Vérifier le survol
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(wordSprites);
+            
+            wordSprites.forEach(sprite => {
+                sprite.userData.isHovered = false;
+            });
+            
+            if (intersects.length > 0) {
+                intersects[0].object.userData.isHovered = true;
+                document.body.style.cursor = 'pointer';
+            } else if (isZooming) {
+                document.body.style.cursor = 'zoom-out';
+            } else {
+                document.body.style.cursor = isDragging ? 'grabbing' : 'grab';
+            }
+        });
+
+        // Clic pour zoomer
+        document.addEventListener('click', (e) => {
+            // Ignorer si on vient de faire un drag
+            if (hasDragged) {
+                return;
+            }
+
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(wordSprites);
+
+            if (intersects.length > 0) {
+                // Nouveau mot cliqué
+                zoomTarget = intersects[0].object;
+                isZooming = true;
+                document.body.style.cursor = 'zoom-out';
+                document.getElementById('message').textContent = `💕 ${zoomTarget.userData.text} 💕`;
+            } else if (isZooming) {
+                // Clic dans le vide = retour
+                isZooming = false;
+                zoomTarget = null;
+                document.body.style.cursor = 'grab';
+                document.getElementById('message').textContent = '🌹 Tu es mon univers 🌹';
+            }
+        });
+
+        // Zoom molette
+        document.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (!isZooming) {
+                zoomLevel += e.deltaY * 0.1;
+                zoomLevel = Math.max(80, Math.min(400, zoomLevel));
+            }
+        }, { passive: false });
+
+        // Échap pour sortir
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isZooming) {
+                isZooming = false;
+                zoomTarget = null;
+                document.body.style.cursor = 'grab';
+                document.getElementById('message').textContent = '🌹 Tu es mon univers 🌹';
+            }
+        });
+
+        // Animation
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+
+            // Rotation du soleil
+            sunGroup.rotation.y += 0.003;
+
+            // Mouvement des cœurs
+            planets.forEach(planet => {
+                planet.angle += planet.speed;
+                planet.mesh.position.x = Math.cos(planet.angle) * planet.distance;
+                planet.mesh.position.z = Math.sin(planet.angle) * planet.distance;
+                planet.mesh.rotation.y += 0.02;
+                
+                const pulse = 1 + Math.sin(time * 2 + planet.angle) * 0.08;
+                planet.mesh.scale.set(
+                    planet.baseSize * pulse,
+                    planet.baseSize * pulse,
+                    planet.baseSize * pulse
+                );
+            });
+
+            // Rotation des étoiles
+            starsGroup.rotation.y += 0.0002;
+
+            // Effet de survol
+            wordSprites.forEach(sprite => {
+                const targetScale = sprite.userData.isHovered ? 
+                    new THREE.Vector3(35, 17.5, 1) : 
+                    sprite.userData.originalScale;
+                sprite.scale.lerp(targetScale, 0.1);
+            });
+
+            // Gestion du zoom
+            if (isZooming && zoomTarget) {
+                const targetPos = zoomTarget.position.clone();
+                const direction = targetPos.clone().normalize();
+                targetCameraPos.copy(targetPos).sub(direction.multiplyScalar(40));
+                targetLookAt.copy(targetPos);
+                
+                camera.position.lerp(targetCameraPos, 0.08);
+                currentLookAt.lerp(targetLookAt, 0.08);
+                camera.lookAt(currentLookAt);
+            } else {
+                // Navigation normale
+                const radius = zoomLevel;
+                targetCameraPos.set(
+                    Math.sin(rotationY) * Math.cos(rotationX) * radius,
+                    Math.sin(rotationX) * radius,
+                    Math.cos(rotationY) * Math.cos(rotationX) * radius
+                );
+                targetLookAt.set(0, 0, 0);
+                
+                camera.position.lerp(targetCameraPos, 0.05);
+                currentLookAt.lerp(targetLookAt, 0.05);
+                camera.lookAt(currentLookAt);
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
