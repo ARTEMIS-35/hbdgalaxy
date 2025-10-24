@@ -76,9 +76,9 @@
     <canvas id="canvas"></canvas>
     <div id="info">
         <h1>✨ KARELLE ✨</h1>
-        <p>🖱️ Cliquez sur un mot d'amour pour zoomer</p>
+        <p>📱 Glissez pour faire tourner</p>
+        <p>👆 Tapez un mot pour zoomer</p>
         <p>💖 Les cœurs tournent autour de toi</p>
-        <p>🌟 Molette : Zoom | Glisser : Explorer</p>
     </div>
     
     <div id="controls">
@@ -113,41 +113,120 @@
             'Tu es unique', 'Magnifique', 'Précieuse', 'Spéciale', 'Merveilleuse', 'Adorable',
             'Enchantement', 'Magie', 'Ton Sourire', 'Ton Regard', 'Câlin', 'Bisou', 'Douceur',
             'Complicité', 'Je pense à toi', 'Fidélité', 'Promesse', 'Infini', 'Mon Étoile',
-            'Ma Lune', 'Mon Soleil', 'Ma Galaxie', 'Mon Univers', 'Rire', 'Charme', 'Grâce'
+            'Ma Lune', 'Mon Soleil', 'Ma Galaxie', 'Mon Univers', 'Rire', 'Charme', 'Grâce',
+            'Dévouement', 'Romantique', 'Sublime', 'Divine', 'Parfaite', 'Rayonnante', 'Étincelle',
+            'Flamme', 'Lumière', 'Espoir', 'Rêverie', 'Merveille', 'Tendre', 'Caresse', 'Émerveillement',
+            'Désir', 'Attraction', 'Harmonie', 'Sérénité', 'Plénitude', 'Félicité', 'Extase',
+            'Admiration', 'Vénération', 'Adoration', 'Affection', 'Attachement', 'Dévotion', 'Ferveur',
+            'Ma Princesse', 'Ma Reine', 'Mon Tendre Amour', 'Ma Douce', 'Ma Perle', 'Mon Diamant',
+            'Ma Rose', 'Mon Papillon', 'Ma Colombe', 'Mon Ciel', 'Ma Terre', 'Mon Paradis',
+            'Tu illumines ma vie', 'Tu es tout pour moi', 'Je rêve de toi', 'Tu me rends heureux',
+            'Avec toi', 'Près de toi', 'Dans tes bras', 'Ton amour', 'Notre histoire', 'Notre avenir',
+            'Karelle mon amour', 'Sweetie', 'Honey', 'Darling', 'Baby', 'Sweetheart', 'My Love',
+            'Beloved', 'Sunshine', 'Starlight', 'Moonlight', 'Angel Eyes', 'Beautiful', 'Gorgeous',
+            'Stunning', 'Amazing', 'Incredible', 'Wonderful', 'Lovely', 'Sweet', 'Tender',
+            'Kind', 'Gentle', 'Caring', 'Loving', 'Warm', 'Bright', 'Radiant', 'Glowing',
+            'Sparkling', 'Shining', 'Dazzling', 'Brilliant', 'Magnificent', 'Splendid', 'Fabulous',
+            'Fantastic', 'Marvelous', 'Extraordinary', 'Exceptional', 'Remarkable', 'Outstanding',
+            'Je t\'adore', 'Tu es belle', 'Mon cœur bat', 'Mon âme', 'Ma flamme', 'Mon destin',
+            'Ma chance', 'Mon bonheur', 'Ma joie de vivre', 'Mon inspiration', 'Ma muse', 'Mon rêve',
+            'Mon éternité', 'Mon infini', 'Mon tout', 'Ma raison', 'Mon espoir', 'Ma lumière',
+            'Mon guide', 'Ma force', 'Mon courage', 'Mon refuge', 'Mon havre', 'Mon port',
+            'Mon ancre', 'Ma boussole', 'Mon étoile filante', 'Mon arc-en-ciel', 'Mon lever de soleil',
+            'Mon coucher de soleil', 'Mon printemps', 'Mon été', 'Mon automne', 'Mon hiver',
+            'Ma saison', 'Mon jour', 'Ma nuit', 'Mon aube', 'Mon crépuscule', 'Mon midi',
+            'Mon instant', 'Mon moment', 'Mon éternité', 'Ma vie entière', 'Mon existence',
+            'Mon être', 'Mon essence', 'Mon souffle', 'Mon battement', 'Mon pouls', 'Mon sang',
+            'Belle Karelle', 'Sweet Karelle', 'Lovely Karelle', 'Dear Karelle', 'Precious Karelle',
+            'Chère Karelle', 'Douce Karelle', 'Tendre Karelle', 'Adorée Karelle', 'Aimée Karelle',
+            'Enchanting', 'Captivating', 'Mesmerizing', 'Hypnotic', 'Alluring', 'Bewitching',
+            'Irresistible', 'Intoxicating', 'Fascinating', 'Enthralling', 'Spellbinding',
+            'Tu es ma vie', 'Tu es mon air', 'Tu es mon eau', 'Tu es mon feu', 'Tu es ma terre',
+            'Sans toi rien', 'Avec toi tout', 'Pour toi toujours', 'Vers toi je vais', 'En toi je crois',
+            'Par toi je vis', 'Grâce à toi', 'À cause de toi', 'Malgré tout toi', 'Surtout toi',
+            'Uniquement toi', 'Seulement toi', 'Rien que toi', 'Toi seule', 'Toi toujours',
+            'Toi partout', 'Toi ici', 'Toi là', 'Toi maintenant', 'Toi demain', 'Toi hier',
+            'Toi éternellement', 'Toi infiniment', 'Toi absolument', 'Toi complètement',
+            'Love you', 'Need you', 'Want you', 'Miss you', 'Adore you', 'Cherish you',
+            'Treasure you', 'Worship you', 'Honor you', 'Respect you', 'Admire you', 'Appreciate you',
+            'Value you', 'Prize you', 'Esteem you', 'Revere you', 'Idolize you', 'Glorify you',
+            'Mon oxygène', 'Ma respiration', 'Mon cœur qui bat', 'Mes pensées', 'Mes rêves',
+            'Mes espoirs', 'Mes désirs', 'Mes envies', 'Mes besoins', 'Mes attentes', 'Mes souhaits',
+            'Ma prière', 'Mon vœu', 'Mon souhait', 'Ma demande', 'Ma quête', 'Ma recherche',
+            'Ma découverte', 'Ma trouvaille', 'Mon cadeau', 'Mon présent', 'Mon trésor caché',
+            'Mon secret', 'Mon mystère', 'Mon énigme', 'Ma révélation', 'Mon miracle', 'Ma merveille',
+            'Mon prodige', 'Mon phénomène', 'Mon exception', 'Ma singularité', 'Mon unicité',
+            'Lovely eyes', 'Sweet smile', 'Soft voice', 'Gentle touch', 'Warm embrace', 'Tender kiss',
+            'Loving heart', 'Kind soul', 'Beautiful spirit', 'Pure essence', 'Divine presence',
+            'Tu m\'inspires', 'Tu m\'émerveilles', 'Tu m\'enchantes', 'Tu m\'éblouis', 'Tu m\'illumines',
+            'Tu m\'enrichis', 'Tu m\'élèves', 'Tu m\'embellis', 'Tu me complètes', 'Tu me transforms',
+            'Tu me rends meilleur', 'Tu me donnes des ailes', 'Tu me fais voler', 'Tu me portes',
+            'Tu me soutiens', 'Tu m\'aides', 'Tu m\'encourages', 'Tu me motives', 'Tu me pousses',
+            'My everything', 'My world', 'My universe', 'My cosmos', 'My galaxy', 'My stars',
+            'My moon', 'My sun', 'My sky', 'My heaven', 'My paradise', 'My dream come true',
+            'Pour toi', 'Avec toi', 'Grâce à toi', 'À toi', 'En toi', 'Par toi', 'Chez toi',
+            'Vers toi', 'Auprès de toi', 'Contre toi', 'Sur toi', 'Sous toi', 'Dans tes yeux',
+            'Dans ton cœur', 'Dans ton âme', 'Dans tes bras', 'Dans ta vie', 'Dans ton monde',
+            'Tes yeux brillent', 'Ton sourire éclaire', 'Ta voix apaise', 'Ton rire enchante',
+            'Ta présence réchauffe', 'Ton amour guérit', 'Ta douceur calme', 'Ta force inspire',
+            'Mon plus beau jour', 'Ma plus belle nuit', 'Mon meilleur moment', 'Mon instant magique',
+            'Mon souvenir préféré', 'Ma mémoire chérie', 'Mon futur désiré', 'Mon demain rêvé'
         ];
+
+        // Fonction pour générer un mot d'amour aléatoire varié
+        function getRandomLoveWord() {
+            // 70% du temps, prendre un mot de la liste
+            if (Math.random() < 0.7) {
+                return motsAmour[Math.floor(Math.random() * motsAmour.length)];
+            }
+            
+            // 30% du temps, créer des variantes
+            const prefixes = ['Mon ', 'Ma ', 'Toi ', 'Pour ', 'Avec ', 'Vers ', 'Chère ', 'Belle '];
+            const suffixes = ['Karelle', 'amour', 'cœur', 'âme', 'vie', 'tout', 'étoile', 'soleil'];
+            const emojis = ['💕', '💖', '💗', '💝', '💘', '❤️', '🌹', '✨', '⭐', '💫'];
+            
+            const useEmoji = Math.random() < 0.3;
+            const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+            const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+            const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            return useEmoji ? `${emoji} ${prefix}${suffix}` : `${prefix}${suffix}`;
+        }
 
         // Groupe d'étoiles
         const starsGroup = new THREE.Group();
-        const canvas2d = document.createElement('canvas');
-        const ctx = canvas2d.getContext('2d');
-        canvas2d.width = 512;
-        canvas2d.height = 256;
         const wordSprites = [];
 
         function createTextTexture(text) {
-            ctx.clearRect(0, 0, canvas2d.width, canvas2d.height);
+            // Créer un nouveau canvas pour chaque texte
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 512;
+            canvas.height = 256;
             
-            const gradient = ctx.createLinearGradient(0, 0, canvas2d.width, canvas2d.height);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
             gradient.addColorStop(0, '#ff69b4');
             gradient.addColorStop(0.5, '#ff1493');
             gradient.addColorStop(1, '#ffb6c1');
             
-            ctx.fillStyle = gradient;
-            ctx.font = 'bold 50px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.shadowColor = '#ff1493';
-            ctx.shadowBlur = 25;
-            ctx.fillText(text, canvas2d.width / 2, canvas2d.height / 2);
+            context.fillStyle = gradient;
+            context.font = 'bold 50px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.shadowColor = '#ff1493';
+            context.shadowBlur = 25;
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
             
-            const texture = new THREE.Texture(canvas2d);
+            const texture = new THREE.Texture(canvas);
             texture.needsUpdate = true;
             return texture;
         }
 
         // Créer les étoiles de mots
-        for (let i = 0; i < 100; i++) {
-            const mot = motsAmour[Math.floor(Math.random() * motsAmour.length)];
+        for (let i = 0; i < 1000; i++) {
+            const mot = getRandomLoveWord();
             const texture = createTextTexture(mot);
             
             const material = new THREE.SpriteMaterial({ 
@@ -320,42 +399,43 @@
         let rotationX = 0;
         let zoomLevel = 180;
 
-        document.addEventListener('mousedown', (e) => {
+        // Gestion souris et tactile
+        function handleStart(clientX, clientY) {
             isDragging = true;
             hasDragged = false;
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-            previousMouseX = e.clientX;
-            previousMouseY = e.clientY;
-        });
+            dragStartX = clientX;
+            dragStartY = clientY;
+            previousMouseX = clientX;
+            previousMouseY = clientY;
+        }
 
-        document.addEventListener('mouseup', () => {
+        function handleEnd() {
             isDragging = false;
-        });
+        }
 
-        document.addEventListener('mousemove', (e) => {
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        function handleMove(clientX, clientY) {
+            mouse.x = (clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(clientY / window.innerHeight) * 2 + 1;
 
             if (isDragging) {
                 const dragDistance = Math.sqrt(
-                    Math.pow(e.clientX - dragStartX, 2) + 
-                    Math.pow(e.clientY - dragStartY, 2)
+                    Math.pow(clientX - dragStartX, 2) + 
+                    Math.pow(clientY - dragStartY, 2)
                 );
                 if (dragDistance > 5) {
                     hasDragged = true;
                 }
 
                 if (!isZooming) {
-                    const deltaX = e.clientX - previousMouseX;
-                    const deltaY = e.clientY - previousMouseY;
+                    const deltaX = clientX - previousMouseX;
+                    const deltaY = clientY - previousMouseY;
                     
                     rotationY += deltaX * 0.005;
                     rotationX += deltaY * 0.005;
                     rotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, rotationX));
                     
-                    previousMouseX = e.clientX;
-                    previousMouseY = e.clientY;
+                    previousMouseX = clientX;
+                    previousMouseY = clientY;
                 }
             }
 
@@ -375,17 +455,48 @@
             } else {
                 document.body.style.cursor = isDragging ? 'grabbing' : 'grab';
             }
+        }
+
+        // Événements souris
+        document.addEventListener('mousedown', (e) => {
+            handleStart(e.clientX, e.clientY);
         });
 
-        // Clic pour zoomer
-        document.addEventListener('click', (e) => {
+        document.addEventListener('mouseup', () => {
+            handleEnd();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            handleMove(e.clientX, e.clientY);
+        });
+
+        // Événements tactiles (mobile)
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                handleStart(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchend', () => {
+            handleEnd();
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: false });
+
+        // Clic/Tap pour zoomer
+        function handleClick(clientX, clientY) {
             // Ignorer si on vient de faire un drag
             if (hasDragged) {
                 return;
             }
 
-            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            mouse.x = (clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
             const intersects = raycaster.intersectObjects(wordSprites);
@@ -403,9 +514,53 @@
                 document.body.style.cursor = 'grab';
                 document.getElementById('message').textContent = '🌹 Tu es mon univers 🌹';
             }
+        }
+
+        document.addEventListener('click', (e) => {
+            handleClick(e.clientX, e.clientY);
         });
 
-        // Zoom molette
+        document.addEventListener('touchend', (e) => {
+            if (e.changedTouches.length === 1) {
+                handleClick(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            }
+        }, { passive: true });
+
+        // Support pinch-to-zoom sur mobile
+        let lastTouchDistance = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                lastTouchDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2 && !isZooming) {
+                e.preventDefault();
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const distance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+                
+                if (lastTouchDistance > 0) {
+                    const delta = lastTouchDistance - distance;
+                    zoomLevel += delta * 0.5;
+                    zoomLevel = Math.max(80, Math.min(400, zoomLevel));
+                }
+                
+                lastTouchDistance = distance;
+            }
+        }, { passive: false });
+
+        // Zoom molette (ordinateur)
         document.addEventListener('wheel', (e) => {
             e.preventDefault();
             if (!isZooming) {
@@ -461,13 +616,23 @@
 
             // Gestion du zoom
             if (isZooming && zoomTarget) {
-                const targetPos = zoomTarget.position.clone();
-                const direction = targetPos.clone().normalize();
-                targetCameraPos.copy(targetPos).sub(direction.multiplyScalar(40));
-                targetLookAt.copy(targetPos);
+                // Position du mot
+                const wordPos = zoomTarget.position.clone();
                 
-                camera.position.lerp(targetCameraPos, 0.08);
-                currentLookAt.lerp(targetLookAt, 0.08);
+                // Calculer une position de caméra devant le mot
+                // On se base sur la position actuelle de la caméra pour une transition fluide
+                const currentCameraPos = camera.position.clone();
+                const directionToWord = wordPos.clone().sub(currentCameraPos).normalize();
+                
+                // Placer la caméra à 60 unités devant le mot
+                const idealCameraPos = wordPos.clone().sub(directionToWord.multiplyScalar(60));
+                
+                // Transition douce
+                camera.position.lerp(idealCameraPos, 0.05);
+                
+                // Regarder directement le mot
+                const lookAtPos = wordPos.clone();
+                currentLookAt.lerp(lookAtPos, 0.05);
                 camera.lookAt(currentLookAt);
             } else {
                 // Navigation normale
