@@ -84,7 +84,7 @@
     <div id="controls">
         <p id="message">🌹 Tu es mon univers 🌹</p>
     </div>
-
+    <audio id="musique" src="fin.MP3" autoplay muted loop></audio>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         const scene = new THREE.Scene();
@@ -659,6 +659,8 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+        const musique = document.getElementById("musique");
+         musique.muted = false;
     </script>
 </body>
 </html>
